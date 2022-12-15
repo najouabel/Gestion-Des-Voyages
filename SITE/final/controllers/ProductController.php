@@ -20,23 +20,25 @@ class ProductController{
 
     public function addProduct(){
         if(isset($_POST['submit'])){
-            $imageNft = $_POST['imageNft'];
 
+            $file_name=$_FILES['file']['name'];
+            $file_tmp=$_FILES['file']['tmp_name'];
+            $file_size=$_FILES['file']['size'];
+            $file_type=$_FILES['file']['type'];
+            $location= "./views/upload/".$file_name;
             $data =  array(
                 'ProductName' => $_POST['ProductName'],
                 'Price' => $_POST['Price'],
-                'ProductDesc' => $_POST['ProductDesc'],     
-                
-                'image' => $_POST['image'],
-
-                  
+                'ProductDesc' => $_POST['ProductDesc'],
+                'image' => $_FILES['file']['name'], 
             );
             
-            if(empty($_FILES['file']['name']) || empty($_POST['ProductDesc'])  || empty($_POST['ProductName']) || empty($_POST['ProductName'])){
-                echo 'fill out all';
+            if(empty($_POST['ProductName']) || empty($_POST['Price'])  || empty($_POST['ProductDesc']) || empty($_FILES['file']['name'])){
+                echo 'valider tout les champ';
             } else{
                 $result = Product::add($data);
              if($result==='ok'){
+                move_uploaded_file($file_tmp,$location);
                 Session::set('success','Product Added');
                 Redirect::to('dashbord');
             } else {

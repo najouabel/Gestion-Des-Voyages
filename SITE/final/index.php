@@ -1,4 +1,3 @@
-
 <?php
 
 require_once './views/includes/header.php';
@@ -11,9 +10,7 @@ $admin = ['add','update','delete','logout','dashbord','login'];
 
 $pages = ['home','about','tours','contact'];
 
-if (!isset($_GET['page'])) {
-  $home->index('home');
-}
+
 
 if (isset($_GET['page']) && in_array($_GET['page'],$admin)) {
 
@@ -24,7 +21,7 @@ if (isset($_GET['page']) && in_array($_GET['page'],$admin)) {
       $page = $_GET['page'];
       $home->index($page);
     }
-    
+
   }else{
     $home->index('login');
   }
@@ -32,10 +29,11 @@ if (isset($_GET['page']) && in_array($_GET['page'],$admin)) {
 }else if(isset($_GET['page']) && in_array($_GET['page'],$pages)){
       $page=$_GET['page'];
       $home->index($page);
+}else if (!isset($_GET['page'])) {
+  $home->index('home');
 }else{
   include('views/includes/404.php');
 }
-
 
 require_once './views/includes/footer.php';
 
